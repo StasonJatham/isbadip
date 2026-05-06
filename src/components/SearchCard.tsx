@@ -2,17 +2,32 @@ import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { useReputationCheck } from '@/hooks/useReputationCheck';
 import { ShieldIcon, CheckIcon, AlertIcon, LoadingDots } from '@/components/icons';
 
-const SearchCard: React.FC = () => {
-  const [query, setQuery] = useState('');
+interface SearchCardProps {
+  onHostChange?: (host: string) => void;
+  initialHost?: string;
+}
+
+const SearchCard: React.FC<SearchCardProps> = ({ onHostChange, initialHost = '' }) => {
+  const [query, setQuery] = useState(initialHost);
   const [showResult, setShowResult] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const resultRef = useRef<HTMLDivElement>(null);
   const { check, status, result, error } = useReputationCheck();
+  const didAutoSearch = useRef(false);
 
   // Focus input on mount
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
+
+  // Auto-search if host param present on mount
+  useEffect(() => {
+    if (initialHost && !didAutoSearch.current) {
+      didAutoSearch.current = true;
+      setShowResult(true);
+      check(initialHost);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Scroll to result when it appears
   useEffect(() => {
@@ -28,9 +43,10 @@ const SearchCard: React.FC = () => {
       if (!trimmed || status === 'loading') return;
 
       setShowResult(true);
+      onHostChange?.(trimmed);
       await check(trimmed);
     },
-    [query, status, check]
+    [query, status, check, onHostChange]
   );
 
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {

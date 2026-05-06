@@ -3,7 +3,11 @@ import { useScrollReveal } from '@/hooks/useScrollReveal';
 import CodeBlock from '@/components/CodeBlock';
 import { TerminalIcon, InfoIcon } from '@/components/icons';
 
-const ApiDocs: React.FC = () => {
+interface ApiDocsProps {
+  host?: string;
+}
+
+const ApiDocs: React.FC<ApiDocsProps> = ({ host }) => {
   const { ref: headerRef, isVisible: headerVisible } = useScrollReveal<HTMLDivElement>();
   const { ref: curlRef, isVisible: curlVisible } = useScrollReveal<HTMLDivElement>();
   const { ref: pythonRef, isVisible: pythonVisible } = useScrollReveal<HTMLDivElement>();
@@ -11,12 +15,15 @@ const ApiDocs: React.FC = () => {
   const { ref: responseRef, isVisible: responseVisible } = useScrollReveal<HTMLDivElement>();
   const { ref: refTableRef, isVisible: refTableVisible } = useScrollReveal<HTMLDivElement>();
 
-  const curlCode = `curl "https://api.isbadip.com/api/v1/host/example.com"`;
+  const exampleHost = host?.trim() || 'example.com';
+  const exampleHostPy = host?.trim() || '8.8.8.8';
+
+  const curlCode = `curl "https://api.isbadip.com/api/v1/host/${exampleHost}"`;
 
   const pythonCode = `import requests
 
 response = requests.get(
-    "https://api.isbadip.com/api/v1/host/8.8.8.8"
+    "https://api.isbadip.com/api/v1/host/${exampleHostPy}"
 )
 result = response.json()
 print(result["valid"])       # True or False
@@ -29,7 +36,7 @@ print(result["malicious"])   # True or False`;
   return await res.json();
 };
 
-const result = await checkReputation("8.8.8.8");
+const result = await checkReputation("${exampleHostPy}");
 console.log(result.malicious); // true or false`;
 
   const responseCode = `{

@@ -1,10 +1,26 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import SearchCard from '@/components/SearchCard';
 import ThemeToggle from '@/components/ThemeToggle';
 import ApiDocs from '@/sections/ApiDocs';
 import Footer from '@/sections/Footer';
 
 const App: React.FC = () => {
+  const [currentHost, setCurrentHost] = useState<string>(
+    () => new URLSearchParams(window.location.search).get('host') ?? ''
+  );
+
+  const handleHostChange = useCallback((host: string) => {
+    setCurrentHost(host);
+    const params = new URLSearchParams(window.location.search);
+    if (host) {
+      params.set('host', host);
+    } else {
+      params.delete('host');
+    }
+    const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
+    window.history.replaceState(null, '', newUrl);
+  }, []);
+
   return (
     <div className="min-h-screen gradient-bg animate-gradient-shift" role="main">
       {/* Theme Toggle - positioned top-right */}
@@ -17,7 +33,7 @@ const App: React.FC = () => {
         className="min-h-[100dvh] flex flex-col items-center justify-center px-5 sm:px-6 py-12"
         aria-label="Reputation checker"
       >
-        <SearchCard />
+        <SearchCard onHostChange={handleHostChange} initialHost={currentHost} />
 
         {/* Scroll hint */}
         <div
@@ -46,7 +62,7 @@ const App: React.FC = () => {
       </section>
 
       {/* API Documentation Section */}
-      <ApiDocs />
+      <ApiDocs host={currentHost} />
 
       {/* Footer */}
       <Footer />
