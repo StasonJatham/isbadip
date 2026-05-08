@@ -4,7 +4,7 @@ import type { ReputationResult, ApiStatus, ApiError, HostApiResponse, HostApiThr
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? (import.meta.env.DEV ? '' : 'https://api.isbadip.com');
 
 function confidenceScore(confidence: HostApiResponse['confidence'], malicious: boolean) {
-  if (!malicious) return 8;
+  if (!malicious) return 0;
   if (confidence === 'high') return 95;
   if (confidence === 'medium') return 75;
   if (confidence === 'low') return 55;
