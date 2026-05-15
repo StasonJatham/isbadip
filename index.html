@@ -6,6 +6,8 @@
     <meta name="description" content="Check if an IP address or domain is flagged as malicious. Free, fast, no account required. Powered by isbadip.com." />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta name="keywords" content="ip reputation lookup, domain reputation lookup, malicious ip check, threat intelligence lookup, blocklist check, abuse ip check, isbadip" />
+    <meta name="application-name" content="isbadip.com" />
+    <meta name="apple-mobile-web-app-title" content="isbadip.com" />
     <meta name="theme-color" content="#3B5B7B" />
     <link rel="canonical" href="https://isbadip.com/" />
     <link rel="manifest" href="/site.webmanifest" />
@@ -14,14 +16,28 @@
     <meta property="og:title" content="isbadip.com — IP & Domain Reputation Check" />
     <meta property="og:description" content="Free IP and domain reputation lookup. Check threat-list status, geo, and rank instantly." />
     <meta property="og:site_name" content="isbadip.com" />
+    <meta property="og:image" content="https://isbadip.com/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="isbadip.com reputation lookup homepage" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="isbadip.com — IP & Domain Reputation Check" />
     <meta name="twitter:description" content="Free IP and domain reputation lookup." />
+    <meta name="twitter:image" content="https://isbadip.com/og-image.jpg" />
     <title>isbadip.com — IP & Domain Reputation Check</title>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@graph": [
+          {
+            "@type": "Organization",
+            "name": "isbadip.com",
+            "url": "https://isbadip.com/",
+            "logo": "https://isbadip.com/og-image.jpg",
+            "sameAs": [
+              "https://github.com/StasonJatham/isbadip"
+            ]
+          },
           {
             "@type": "WebSite",
             "name": "isbadip.com",
@@ -50,6 +66,17 @@
               "price": "0",
               "priceCurrency": "USD"
             }
+          },
+          {
+            "@type": "WebAPI",
+            "name": "isbadip API",
+            "url": "https://api.isbadip.com/api/v1/host/1.1.1.1",
+            "documentation": "https://isbadip.com/",
+            "provider": {
+              "@type": "Organization",
+              "name": "isbadip.com"
+            },
+            "description": "Public API for malicious IP and domain reputation lookups."
           }
         ]
       }
