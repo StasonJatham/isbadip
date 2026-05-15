@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Check if an IP address or domain is flagged as malicious. Free, fast, no account required. Powered by isbadip.com." />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <meta name="keywords" content="ip reputation lookup, domain reputation lookup, malicious ip check, threat intelligence lookup, blocklist check, abuse ip check, isbadip" />
     <meta name="theme-color" content="#3B5B7B" />
     <link rel="canonical" href="https://isbadip.com/" />
     <link rel="manifest" href="/site.webmanifest" />
@@ -11,10 +13,47 @@
     <meta property="og:url" content="https://isbadip.com/" />
     <meta property="og:title" content="isbadip.com — IP & Domain Reputation Check" />
     <meta property="og:description" content="Free IP and domain reputation lookup. Check threat-list status, geo, and rank instantly." />
+    <meta property="og:site_name" content="isbadip.com" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="isbadip.com — IP & Domain Reputation Check" />
     <meta name="twitter:description" content="Free IP and domain reputation lookup." />
     <title>isbadip.com — IP & Domain Reputation Check</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "name": "isbadip.com",
+            "url": "https://isbadip.com/",
+            "description": "Free IP and domain reputation lookup for malicious or suspicious infrastructure.",
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://isbadip.com/?host={search_term_string}"
+              },
+              "query-input": "required name=search_term_string"
+            }
+          },
+          {
+            "@type": "WebApplication",
+            "name": "isbadip.com",
+            "url": "https://isbadip.com/",
+            "applicationCategory": "SecurityApplication",
+            "operatingSystem": "Any",
+            "isAccessibleForFree": true,
+            "browserRequirements": "Requires JavaScript. Works in modern browsers.",
+            "description": "Free reputation lookup for malicious IPs and domains.",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            }
+          }
+        ]
+      }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
