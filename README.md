@@ -1,22 +1,34 @@
-# isbadip
+# isbadip.com
 
 [![Website](https://img.shields.io/website?url=https%3A%2F%2Fisbadip.com&label=website)](https://isbadip.com)
-[![API Status](https://img.shields.io/website?url=https%3A%2F%2Fapi.isbadip.com%2Fapi%2Fv1%2Fhost%2F8.8.8.8&label=API)](https://api.isbadip.com/api/v1/host/8.8.8.8)
+[![API](https://img.shields.io/website?url=https%3A%2F%2Fapi.isbadip.com%2Fapi%2Fv1%2Fhost%2F8.8.8.8&label=api)](https://api.isbadip.com/api/v1/host/8.8.8.8)
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
 ![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-6-3178C6?logo=typescript&logoColor=white)
-![No Auth](https://img.shields.io/badge/API-no--auth-16a34a)
+![Free API](https://img.shields.io/badge/API-free-16a34a)
 
-Free IP and domain reputation lookup for quick security checks, scripts, and public integrations. `isbadip` combines public threat-intelligence feeds with custom lists from real IDS/IPS alerts and web-application attack logs, so it is more than a wrapper around the same public feeds everyone else already has.
+Free malicious IP and domain reputation lookup for quick security checks, automation, dashboards, and public integrations. `isbadip.com` combines public threat-intelligence feeds with local attack telemetry, so it is more than a thin wrapper around the same lists everyone else already republishes.
 
-![isbadip social preview](./isbadip-social.webp)
+![isbadip.com social preview](https://isbadip.com/og-image.jpg)
 
 No tracking. No account. No API key.
 
-## Live
+## Live Service
 
 - Website: [https://isbadip.com](https://isbadip.com)
 - Public API: [https://api.isbadip.com/api/v1/host/8.8.8.8](https://api.isbadip.com/api/v1/host/8.8.8.8)
+
+## What It Checks
+
+`isbadip.com` checks whether a host appears in reputation data built from:
+
+- public IP blocklists
+- public domain blocklists
+- custom IP lists from IDS and IPS alerts
+- custom domain lists from attack and probe traffic
+- web-application attack logs seen by Karl's own infrastructure
+
+That custom-list layer is what makes the service useful: hosts that actively probe or attack real services can be surfaced even before they show up in common public feeds.
 
 ## Public API
 
@@ -30,66 +42,74 @@ Example:
 curl -s https://api.isbadip.com/api/v1/host/8.8.8.8 | jq
 ```
 
-The API is public and does not require authentication. It is designed for lightweight checks, shell scripts, dashboards, and quick enrichment workflows.
+The API is public and does not require authentication. It is designed for lightweight checks, shell scripts, dashboards, enrichment workflows, and simple integrations.
 
-## What It Checks
+## How It Works
 
-`isbadip` checks whether a host appears in reputation data built from:
+The backend continuously merges:
 
-- public IP blocklists
-- public domain blocklists
-- custom IP lists from IDS/IPS alerts
-- custom domain lists from attack and probe traffic
-- web-application attack logs seen by Karl's own infrastructure
+- public threat-intelligence feeds
+- public reputation data
+- locally observed attack and abuse signals
+- manually managed internal blocklist entries
 
-That custom-list layer is the useful part: hosts that actively probe or attack real services can be included even when they have not yet appeared on common public feeds.
+The output is normalized into a single public lookup response so the frontend stays simple and the API remains easy to consume.
 
 ## Data Freshness
 
-Threat-intelligence data is refreshed daily. The database is rebuilt automatically so lookups reflect current public feeds plus the latest custom observations.
+Threat-intelligence data is refreshed automatically and the compiled database is rebuilt regularly so lookups reflect current public feeds plus the latest custom observations.
 
 The API is intentionally simple: one host in, one reputation result out.
 
-## Stack
+## Frontend
 
-- React 19
-- Vite 8
-- TypeScript 6
-- Tailwind CSS 3
-- shadcn/ui components
-- Deployed as a static site on Cloudflare Pages
+This repository contains the public frontend for `isbadip.com`.
+
+- Framework: React 19
+- Build tool: Vite 8
+- Language: TypeScript
+- Deployment target: Cloudflare Pages
+
+The backend API is served separately at [https://api.isbadip.com](https://api.isbadip.com).
 
 ## Local Development
 
 ```bash
 npm install
-npm run dev      # http://localhost:3000  (proxies /api -> api.isbadip.com)
-npm run build    # output: ./dist
+npm run dev
+```
+
+Build for production:
+
+```bash
+npm run build
 npm run preview
 ```
 
-## Configuration
+Optional environment variable:
 
-Optional `.env` (or `.env.local`):
-
-```
+```bash
 VITE_API_BASE_URL=https://api.isbadip.com
 ```
 
-If unset, production builds default to `https://api.isbadip.com` and dev uses the Vite proxy.
+## Deployment
 
-## Topics
+Recommended Cloudflare Pages settings:
 
-Suggested GitHub topics:
+- Framework preset: `React (Vite)`
+- Build command: `npm run build`
+- Build output directory: `dist`
 
-- `ip-reputation`
-- `threat-intelligence`
-- `public-api`
-- `no-auth`
-- `security-tools`
-- `blocklist`
-- `ids`
-- `ips`
+Required environment variable:
+
+```bash
+VITE_API_BASE_URL=https://api.isbadip.com
+```
+
+## Related Services
+
+- [isproxy.org](https://isproxy.org) — proxy, VPN, Tor, hosting, and residential-proxy lookup
+- [is-windows-broken.com](https://is-windows-broken.com) — Windows patch and release-health rollout monitor
 
 ## Author
 
