@@ -1,0 +1,7 @@
+/* TEAM */
+Owner: Karl
+Site: https://isbadip.com
+GitHub: https://github.com/StasonJatham/isbadip
+
+/* THANKS */
+Built from public threat-intel data and local infrastructure.
