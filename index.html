@@ -53,19 +53,30 @@
             }
           },
           {
-            "@type": "WebApplication",
+            "@type": ["SoftwareApplication", "WebApplication"],
             "name": "isbadip.com",
+            "alternateName": "isbadip",
             "url": "https://isbadip.com/",
             "applicationCategory": "SecurityApplication",
+            "applicationSubCategory": "IP and Domain Reputation Lookup",
             "operatingSystem": "Any",
             "isAccessibleForFree": true,
             "browserRequirements": "Requires JavaScript. Works in modern browsers.",
             "description": "Free reputation lookup for malicious IPs and domains.",
+            "image": "https://isbadip.com/og-image.jpg",
             "offers": {
               "@type": "Offer",
               "price": "0",
-              "priceCurrency": "USD"
-            }
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            "featureList": [
+              "Malicious IP reputation lookup",
+              "Domain reputation lookup",
+              "Threat list matching",
+              "Custom telemetry-backed enrichment",
+              "Free public API"
+            ]
           },
           {
             "@type": "WebAPI",
