@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 
+Host: isbadip.com
 Sitemap: https://isbadip.com/sitemap.xml

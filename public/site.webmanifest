@@ -1,8 +1,10 @@
 {
-  "name": "isbadip",
+  "id": "/",
+  "name": "isbadip.com",
   "short_name": "isbadip",
   "description": "Free IP and domain reputation lookup",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#FDFCF8",
   "theme_color": "#3B5B7B",
