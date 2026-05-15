@@ -95,6 +95,27 @@ const App: React.FC = () => {
         </div>
       </section>
 
+      <section
+        className="w-full max-w-[720px] mx-auto px-5 sm:px-6 pb-4 sm:pb-6"
+        aria-labelledby="service-explainer-heading"
+      >
+        <div className="glass-card px-5 py-5 sm:px-6 sm:py-6">
+          <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-text-muted mb-2">
+            About the service
+          </p>
+          <h2
+            id="service-explainer-heading"
+            className="text-base sm:text-lg font-medium text-text-primary tracking-tight mb-2"
+          >
+            isbadip.com helps check whether an IP or domain looks malicious
+          </h2>
+          <p className="text-sm sm:text-[15px] leading-6 text-text-secondary">
+            It combines public threat-intelligence feeds with locally observed attack signals to surface
+            suspicious infrastructure, abusive hosts, and domains that deserve a closer look.
+          </p>
+        </div>
+      </section>
+
       {/* API Documentation Section */}
       <ApiDocs host={currentHost} />
 
