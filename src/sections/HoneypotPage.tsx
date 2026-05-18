@@ -83,7 +83,7 @@ function ContextChips({ event }: { event: HoneypotEvent }) {
       {chips.map((chip) => (
         <span
           key={chip}
-          className="rounded-full border border-border-subtle px-2 py-0.5 font-mono text-[11px] text-text-muted"
+          className="rounded-full border border-border-subtle px-2 py-0.5 font-mono text-[11px] text-text-muted dark:border-white/10 dark:bg-white/[0.03] dark:text-slate-400"
         >
           {chip}
         </span>
@@ -98,7 +98,7 @@ function FileDownloadDetails({ event }: { event: HoneypotEvent }) {
   const direction = event.event === 'honeypot.session.file_upload' ? 'upload' : 'download';
 
   return (
-    <div className="mt-2 rounded-lg border border-border-subtle bg-white/80 p-3 font-mono text-xs leading-5 text-slate-900 break-words dark:bg-code-bg/95 dark:text-code-text">
+    <div className="mt-2 rounded-lg border border-border-subtle bg-white/80 p-3 font-mono text-xs leading-5 text-slate-900 break-words dark:border-white/10 dark:bg-[#0b111c] dark:text-slate-100">
       <div><span className="text-text-muted dark:text-code-comment">direction:</span> {direction}</div>
       {event.file_name ? (
         <div><span className="text-text-muted dark:text-code-comment">file:</span> {event.file_name}</div>
@@ -112,11 +112,11 @@ function FileDownloadDetails({ event }: { event: HoneypotEvent }) {
         <div><span className="text-text-muted dark:text-code-comment">sha256:</span> {event.hash}</div>
       ) : null}
       {event.file_preview ? (
-        <pre className="mt-2 max-h-36 overflow-auto whitespace-pre-wrap break-words rounded-md border border-border-subtle bg-white/70 p-2 text-slate-900 dark:bg-black/25 dark:text-code-text">
+        <pre className="mt-2 max-h-36 overflow-auto whitespace-pre-wrap break-words rounded-md border border-border-subtle bg-white/70 p-2 text-slate-900 dark:border-white/10 dark:bg-black/35 dark:text-slate-100">
           {event.file_preview}
         </pre>
       ) : event.file_preview_mode === 'empty' ? (
-        <div className="mt-2 rounded-md border border-border-subtle bg-white/70 p-2 text-slate-900 dark:bg-black/25 dark:text-code-text">
+        <div className="mt-2 rounded-md border border-border-subtle bg-white/70 p-2 text-slate-900 dark:border-white/10 dark:bg-black/35 dark:text-slate-100">
           empty file, no content snippet
         </div>
       ) : null}
@@ -283,8 +283,8 @@ const HoneypotPage: React.FC = () => {
             />
           </aside>
 
-          <section className="glass-card overflow-hidden">
-            <div className="flex flex-col gap-3 border-b border-border-subtle p-4 sm:flex-row sm:items-center sm:justify-between">
+          <section className="glass-card overflow-hidden dark:bg-[#0f141d]/95">
+            <div className="flex flex-col gap-3 border-b border-border-subtle p-4 dark:border-white/10 sm:flex-row sm:items-center sm:justify-between">
               <div className="min-w-0">
                 <h2 className="text-lg font-medium text-text-primary">Events</h2>
                 <p className="text-sm text-text-muted">
@@ -296,13 +296,13 @@ const HoneypotPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={reload}
-                  className="rounded-lg border border-border-subtle px-3 py-2 text-sm text-text-secondary transition-colors hover:text-text-primary"
+                  className="rounded-lg border border-border-subtle px-3 py-2 text-sm text-text-secondary transition-colors hover:text-text-primary dark:border-white/10 dark:bg-white/[0.03] dark:text-slate-300 dark:hover:bg-white/[0.06] dark:hover:text-white"
                 >
                   Refresh
                 </button>
                 <a
                   href="https://api.isbadip.com/api/v1/honeypot/iocs"
-                  className="rounded-lg border border-border-subtle px-3 py-2 text-center text-sm text-text-secondary transition-colors hover:text-text-primary"
+                  className="rounded-lg border border-border-subtle px-3 py-2 text-center text-sm text-text-secondary transition-colors hover:text-text-primary dark:border-white/10 dark:bg-white/[0.03] dark:text-slate-300 dark:hover:bg-white/[0.06] dark:hover:text-white"
                 >
                   Export JSON
                 </a>
@@ -312,13 +312,13 @@ const HoneypotPage: React.FC = () => {
             {error ? (
               <div className="p-6 text-danger-coral">Failed to load honeypot events: {error}</div>
             ) : (
-              <div className="divide-y divide-border-subtle/70 sm:max-h-[68vh] sm:min-h-[360px] sm:overflow-y-auto sm:overscroll-contain">
+              <div className="divide-y divide-border-subtle/70 dark:divide-white/10 sm:max-h-[68vh] sm:min-h-[360px] sm:overflow-y-auto sm:overscroll-contain">
                 {(events?.events || []).map((event, index) => (
-                  <article key={`${event.ts}-${event.ip}-${event.event}-${index}`} className="p-3.5 transition-colors hover:bg-accent-blue/5 sm:p-4">
+                  <article key={`${event.ts}-${event.ip}-${event.event}-${index}`} className="p-3.5 transition-colors hover:bg-accent-blue/5 dark:bg-[#101722] dark:hover:bg-sky-400/[0.06] sm:p-4">
                     <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                       <div className="min-w-0">
                         <div className="flex flex-wrap items-center gap-2">
-                          <span className="rounded-full bg-accent-blue/10 px-2.5 py-1 text-xs font-medium text-accent-blue">
+                          <span className="rounded-full bg-accent-blue/10 px-2.5 py-1 text-xs font-medium text-accent-blue dark:bg-sky-400/10 dark:text-sky-300">
                             {sourceLabel(event.source)}
                           </span>
                           <span className="font-mono text-sm text-text-primary">{event.ip}</span>
@@ -331,7 +331,7 @@ const HoneypotPage: React.FC = () => {
                         {isFileEvent(event) ? (
                           <FileDownloadDetails event={event} />
                         ) : eventDetail(event) ? (
-                          <div className="mt-2 rounded-lg border border-border-subtle bg-white/80 p-3 font-mono text-xs leading-5 text-slate-900 break-words dark:bg-code-bg/95 dark:text-code-text">
+                          <div className="mt-2 rounded-lg border border-border-subtle bg-white/80 p-3 font-mono text-xs leading-5 text-slate-900 break-words dark:border-white/10 dark:bg-[#0b111c] dark:text-slate-100">
                             {eventDetail(event)}
                           </div>
                         ) : null}
@@ -350,12 +350,12 @@ const HoneypotPage: React.FC = () => {
               </div>
             )}
 
-            <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 border-t border-border-subtle p-3 sm:p-4">
+            <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 border-t border-border-subtle p-3 dark:border-white/10 sm:p-4">
               <button
                 type="button"
                 disabled={page <= 1 || loading}
                 onClick={() => setPage((current) => Math.max(1, current - 1))}
-                className="rounded-lg border border-border-subtle px-3 py-2 text-sm text-text-secondary disabled:opacity-40"
+                className="rounded-lg border border-border-subtle px-3 py-2 text-sm text-text-secondary disabled:opacity-40 dark:border-white/10 dark:bg-white/[0.03] dark:text-slate-300 dark:disabled:text-slate-600"
               >
                 Previous
               </button>
@@ -366,7 +366,7 @@ const HoneypotPage: React.FC = () => {
                 type="button"
                 disabled={loading || page >= (events?.pages || 1)}
                 onClick={() => setPage((current) => current + 1)}
-                className="rounded-lg border border-border-subtle px-3 py-2 text-sm text-text-secondary disabled:opacity-40"
+                className="rounded-lg border border-border-subtle px-3 py-2 text-sm text-text-secondary disabled:opacity-40 dark:border-white/10 dark:bg-white/[0.03] dark:text-slate-300 dark:disabled:text-slate-600"
               >
                 Next
               </button>
