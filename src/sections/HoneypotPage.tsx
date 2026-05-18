@@ -23,6 +23,18 @@ function number(value: number | undefined) {
   return new Intl.NumberFormat().format(value || 0);
 }
 
+function bytes(value: number | null | undefined) {
+  if (!Number.isFinite(value || NaN)) return null;
+  const units = ['B', 'KB', 'MB', 'GB'];
+  let size = value || 0;
+  let unit = 0;
+  while (size >= 1024 && unit < units.length - 1) {
+    size /= 1024;
+    unit += 1;
+  }
+  return `${size >= 10 || unit === 0 ? Math.round(size) : size.toFixed(1)} ${units[unit]}`;
+}
+
 function formatTime(value: string | null) {
   if (!value) return 'unknown';
   const date = new Date(value);
@@ -45,6 +57,32 @@ function eventDetail(event: HoneypotEvent) {
     return credentials || event.protocol || '';
   }
   return `${event.method || 'GET'} ${event.host || ''}${event.path || ''}`.trim();
+}
+
+function FileDownloadDetails({ event }: { event: HoneypotEvent }) {
+  if (!event.hash && !event.file_name && !event.file_preview) return null;
+  const size = bytes(event.file_size);
+
+  return (
+    <div className="mt-2 rounded-lg border border-border-subtle bg-white/80 p-3 font-mono text-xs leading-5 text-slate-900 break-words dark:bg-code-bg/95 dark:text-code-text">
+      {event.file_name ? (
+        <div><span className="text-text-muted dark:text-code-comment">file:</span> {event.file_name}</div>
+      ) : null}
+      {size || event.file_type ? (
+        <div>
+          <span className="text-text-muted dark:text-code-comment">type:</span> {[size, event.file_type].filter(Boolean).join(' · ')}
+        </div>
+      ) : null}
+      {event.hash ? (
+        <div><span className="text-text-muted dark:text-code-comment">sha256:</span> {event.hash}</div>
+      ) : null}
+      {event.file_preview ? (
+        <pre className="mt-2 max-h-36 overflow-auto whitespace-pre-wrap break-words rounded-md border border-border-subtle bg-white/70 p-2 text-slate-900 dark:bg-black/25 dark:text-code-text">
+          {event.file_preview}
+        </pre>
+      ) : null}
+    </div>
+  );
 }
 
 const HoneypotPage: React.FC = () => {
@@ -226,7 +264,9 @@ const HoneypotPage: React.FC = () => {
                         <div className="mt-2 font-mono text-sm text-text-secondary break-words">
                           {event.event}
                         </div>
-                        {eventDetail(event) ? (
+                        {event.event === 'honeypot.session.file_download' ? (
+                          <FileDownloadDetails event={event} />
+                        ) : eventDetail(event) ? (
                           <div className="mt-2 rounded-lg border border-border-subtle bg-white/80 p-3 font-mono text-xs leading-5 text-slate-900 break-words dark:bg-code-bg/95 dark:text-code-text">
                             {eventDetail(event)}
                           </div>

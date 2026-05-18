@@ -91,6 +91,12 @@ export interface HoneypotEvent {
   command?: string | null;
   url?: string | null;
   hash?: string | null;
+  file_name?: string | null;
+  file_names?: string[];
+  file_size?: number | null;
+  file_type?: string | null;
+  file_preview_mode?: string | null;
+  file_preview?: string | null;
   session?: string | null;
   host?: string | null;
   path?: string | null;
