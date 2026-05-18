@@ -155,6 +155,16 @@ const HoneypotPage: React.FC = () => {
     }
   }, []);
 
+  const applySummaryFilter = useCallback((value: string, nextSource = 'all') => {
+    const trimmed = value.trim();
+    if (!trimmed) return;
+    setPage(1);
+    setSearchDraft(trimmed);
+    setQuery(trimmed);
+    setSource(nextSource);
+    setQuickFilter(QUICK_FILTERS[0]);
+  }, []);
+
   return (
     <div className="min-h-screen gradient-bg animate-gradient-shift" role="main">
       <div className="fixed top-4 right-4 z-50 flex items-center gap-2 animate-fade-up" style={{ animationDelay: '250ms', opacity: 0 }}>
@@ -256,9 +266,21 @@ const HoneypotPage: React.FC = () => {
 
         <div className="mt-6 grid gap-6 lg:grid-cols-[280px_1fr]">
           <aside className="space-y-4">
-            <TopList title="Top event types" rows={[...(summary?.top.network_events || []), ...(summary?.top.edge_events || [])].slice(0, 10)} />
-            <TopList title="Top commands" rows={summary?.top.commands || []} />
-            <TopList title="Edge hosts" rows={summary?.top.edge_hosts || []} />
+            <TopList
+              title="Top event types"
+              rows={[...(summary?.top.network_events || []), ...(summary?.top.edge_events || [])].slice(0, 10)}
+              onSelect={(value) => applySummaryFilter(value)}
+            />
+            <TopList
+              title="Top commands"
+              rows={summary?.top.commands || []}
+              onSelect={(value) => applySummaryFilter(value, 'network')}
+            />
+            <TopList
+              title="Edge hosts"
+              rows={summary?.top.edge_hosts || []}
+              onSelect={(value) => applySummaryFilter(value, 'edge')}
+            />
           </aside>
 
           <section className="glass-card overflow-hidden">
@@ -365,17 +387,35 @@ function Metric({ label, value }: { label: string; value: string }) {
   );
 }
 
-function TopList({ title, rows }: { title: string; rows: Array<{ key?: string; ip?: string; count: number }> }) {
+function TopList({
+  title,
+  rows,
+  onSelect,
+}: {
+  title: string;
+  rows: Array<{ key?: string; ip?: string; count: number }>;
+  onSelect?: (value: string) => void;
+}) {
   return (
     <div className="glass-card p-4">
       <h3 className="mb-3 text-sm font-medium uppercase tracking-wide text-text-muted">{title}</h3>
       <div className="space-y-2">
-        {rows.slice(0, 8).map((row) => (
-          <div key={`${row.key || row.ip}-${row.count}`} className="flex items-start justify-between gap-3 text-sm">
-            <span className="min-w-0 truncate font-mono text-text-secondary">{row.key || row.ip}</span>
-            <span className="shrink-0 text-text-muted">{number(row.count)}</span>
-          </div>
-        ))}
+        {rows.slice(0, 8).map((row) => {
+          const value = row.key || row.ip || '';
+          return (
+            <button
+              key={`${value}-${row.count}`}
+              type="button"
+              onClick={() => onSelect?.(value)}
+              disabled={!onSelect || !value}
+              title={`Filter by ${value}`}
+              className="flex w-full items-start justify-between gap-3 rounded-lg px-2 py-1.5 text-left text-sm transition-colors hover:bg-accent-blue/10 hover:text-text-primary disabled:cursor-default disabled:hover:bg-transparent"
+            >
+              <span className="min-w-0 truncate font-mono text-text-secondary">{value}</span>
+              <span className="shrink-0 text-text-muted">{number(row.count)}</span>
+            </button>
+          );
+        })}
         {rows.length === 0 ? <p className="text-sm text-text-muted">No data yet.</p> : null}
       </div>
     </div>
