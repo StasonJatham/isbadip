@@ -59,12 +59,45 @@ function eventDetail(event: HoneypotEvent) {
   return `${event.method || 'GET'} ${event.host || ''}${event.path || ''}`.trim();
 }
 
+function isFileEvent(event: HoneypotEvent) {
+  return event.event === 'honeypot.session.file_download' || event.event === 'honeypot.session.file_upload';
+}
+
+function ContextChips({ event }: { event: HoneypotEvent }) {
+  const credentials = [event.username, event.password].filter(Boolean).join(':');
+  const chips = [
+    event.protocol ? `proto:${event.protocol}` : null,
+    event.session ? `session:${event.session}` : null,
+    credentials ? `creds:${credentials}` : null,
+    event.country ? `country:${event.country}` : null,
+    event.action ? `action:${event.action}` : null,
+    event.category ? `category:${event.category}` : null,
+  ].filter(Boolean);
+
+  if (chips.length === 0) return null;
+
+  return (
+    <div className="mt-2 flex flex-wrap gap-1.5">
+      {chips.map((chip) => (
+        <span
+          key={chip}
+          className="rounded-full border border-border-subtle px-2 py-0.5 font-mono text-[11px] text-text-muted"
+        >
+          {chip}
+        </span>
+      ))}
+    </div>
+  );
+}
+
 function FileDownloadDetails({ event }: { event: HoneypotEvent }) {
   if (!event.hash && !event.file_name && !event.file_preview) return null;
   const size = bytes(event.file_size);
+  const direction = event.event === 'honeypot.session.file_upload' ? 'upload' : 'download';
 
   return (
     <div className="mt-2 rounded-lg border border-border-subtle bg-white/80 p-3 font-mono text-xs leading-5 text-slate-900 break-words dark:bg-code-bg/95 dark:text-code-text">
+      <div><span className="text-text-muted dark:text-code-comment">direction:</span> {direction}</div>
       {event.file_name ? (
         <div><span className="text-text-muted dark:text-code-comment">file:</span> {event.file_name}</div>
       ) : null}
@@ -80,6 +113,10 @@ function FileDownloadDetails({ event }: { event: HoneypotEvent }) {
         <pre className="mt-2 max-h-36 overflow-auto whitespace-pre-wrap break-words rounded-md border border-border-subtle bg-white/70 p-2 text-slate-900 dark:bg-black/25 dark:text-code-text">
           {event.file_preview}
         </pre>
+      ) : event.file_preview_mode === 'empty' ? (
+        <div className="mt-2 rounded-md border border-border-subtle bg-white/70 p-2 text-slate-900 dark:bg-black/25 dark:text-code-text">
+          empty file, no content snippet
+        </div>
       ) : null}
     </div>
   );
@@ -264,7 +301,8 @@ const HoneypotPage: React.FC = () => {
                         <div className="mt-2 font-mono text-sm text-text-secondary break-words">
                           {event.event}
                         </div>
-                        {event.event === 'honeypot.session.file_download' ? (
+                        <ContextChips event={event} />
+                        {isFileEvent(event) ? (
                           <FileDownloadDetails event={event} />
                         ) : eventDetail(event) ? (
                           <div className="mt-2 rounded-lg border border-border-subtle bg-white/80 p-3 font-mono text-xs leading-5 text-slate-900 break-words dark:bg-code-bg/95 dark:text-code-text">
