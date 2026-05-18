@@ -63,8 +63,13 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen gradient-bg animate-gradient-shift" role="main">
-      {/* Theme Toggle - positioned top-right */}
-      <div className="fixed top-4 right-4 z-50 animate-fade-up" style={{ animationDelay: '600ms', opacity: 0 }}>
+      <div className="fixed top-4 right-4 z-50 flex items-center gap-2 animate-fade-up" style={{ animationDelay: '600ms', opacity: 0 }}>
+        <a
+          href="/honeypot"
+          className="rounded-full border border-border-subtle bg-white/55 px-3 py-2 text-xs font-medium text-text-secondary backdrop-blur transition-colors hover:text-text-primary dark:bg-black/20"
+        >
+          Honeypot
+        </a>
         <ThemeToggle />
       </div>
 
@@ -107,16 +112,16 @@ const App: React.FC = () => {
       >
         <a href="/honeypot" className="glass-card block px-5 py-5 sm:px-6 sm:py-6 transition-transform hover:-translate-y-0.5">
           <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-text-muted mb-2">
-            Live telemetry
+            Honeypot data
           </p>
           <h2
             id="honeypot-link-heading"
             className="text-base sm:text-lg font-medium text-text-primary tracking-tight mb-2"
           >
-            Browse public-safe honeypot events
+            Browse real isbadip honeypot events
           </h2>
           <p className="text-sm sm:text-[15px] leading-6 text-text-secondary">
-            Search normalized attack activity collected from SSH/Telnet and edge web honeypots.
+            Search real activity collected from SSH/Telnet and edge web honeypots, updated daily.
           </p>
         </a>
       </section>

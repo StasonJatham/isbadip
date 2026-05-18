@@ -6,6 +6,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? (import.meta.env.DEV ?
 interface HoneypotQuery {
   q: string;
   source: string;
+  event?: string;
   page: number;
   limit: number;
 }
@@ -24,6 +25,7 @@ export function useHoneypotEvents(query: HoneypotQuery) {
       const params = new URLSearchParams({
         q: query.q,
         source: query.source,
+        event: query.event || '',
         page: String(query.page),
         limit: String(query.limit),
       });
@@ -46,7 +48,7 @@ export function useHoneypotEvents(query: HoneypotQuery) {
     } finally {
       setLoading(false);
     }
-  }, [query.limit, query.page, query.q, query.source]);
+  }, [query.event, query.limit, query.page, query.q, query.source]);
 
   useEffect(() => {
     load();

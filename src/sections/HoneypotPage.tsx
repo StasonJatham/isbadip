@@ -11,6 +11,14 @@ const SOURCE_OPTIONS = [
   { value: 'web-trap', label: 'Web trap' },
 ];
 
+const QUICK_FILTERS = [
+  { id: 'all', label: 'All logs', source: 'all', q: '' },
+  { id: 'commands', label: 'Commands', source: 'network', q: 'command.input' },
+  { id: 'files', label: 'Files', source: 'network', q: 'file' },
+  { id: 'credentials', label: 'Credentials', source: 'network', q: 'login' },
+  { id: 'web', label: 'Web probes', source: 'edge', q: '' },
+];
+
 function number(value: number | undefined) {
   return new Intl.NumberFormat().format(value || 0);
 }
@@ -39,9 +47,12 @@ const HoneypotPage: React.FC = () => {
   const [searchDraft, setSearchDraft] = useState('');
   const [query, setQuery] = useState('');
   const [source, setSource] = useState('all');
+  const [quickFilter, setQuickFilter] = useState(QUICK_FILTERS[0]);
   const [page, setPage] = useState(1);
   const limit = 25;
-  const { summary, events, loading, error, reload } = useHoneypotEvents({ q: query, source, page, limit });
+  const combinedQuery = [quickFilter.q, query].filter(Boolean).join(' ');
+  const activeSource = quickFilter.source === 'all' ? source : quickFilter.source;
+  const { summary, events, loading, error, reload } = useHoneypotEvents({ q: combinedQuery, source: activeSource, page, limit });
 
   const submitSearch = useCallback((event: React.FormEvent) => {
     event.preventDefault();
@@ -52,11 +63,26 @@ const HoneypotPage: React.FC = () => {
   const setSourceFilter = useCallback((value: string) => {
     setPage(1);
     setSource(value);
+    setQuickFilter(QUICK_FILTERS[0]);
+  }, []);
+
+  const applyQuickFilter = useCallback((filter: typeof QUICK_FILTERS[number]) => {
+    setPage(1);
+    setQuickFilter(filter);
+    if (filter.source !== 'all') {
+      setSource(filter.source);
+    }
   }, []);
 
   return (
     <div className="min-h-screen gradient-bg animate-gradient-shift" role="main">
-      <div className="fixed top-4 right-4 z-50 animate-fade-up" style={{ animationDelay: '250ms', opacity: 0 }}>
+      <div className="fixed top-4 right-4 z-50 flex items-center gap-2 animate-fade-up" style={{ animationDelay: '250ms', opacity: 0 }}>
+        <a
+          href="/"
+          className="rounded-full border border-border-subtle bg-white/55 px-3 py-2 text-xs font-medium text-text-secondary backdrop-blur transition-colors hover:text-text-primary dark:bg-black/20"
+        >
+          Lookup
+        </a>
         <ThemeToggle />
       </div>
 
@@ -126,6 +152,25 @@ const HoneypotPage: React.FC = () => {
               Search
             </button>
           </form>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {QUICK_FILTERS.map((filter) => {
+              const active = quickFilter.id === filter.id;
+              return (
+                <button
+                  key={filter.id}
+                  type="button"
+                  onClick={() => applyQuickFilter(filter)}
+                  className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
+                    active
+                      ? 'border-accent-blue bg-accent-blue text-white'
+                      : 'border-border-subtle text-text-secondary hover:text-text-primary'
+                  }`}
+                >
+                  {filter.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         <div className="mt-6 grid gap-6 lg:grid-cols-[280px_1fr]">
@@ -162,7 +207,7 @@ const HoneypotPage: React.FC = () => {
             {error ? (
               <div className="p-6 text-danger-coral">Failed to load honeypot events: {error}</div>
             ) : (
-              <div className="divide-y divide-border-subtle/70">
+              <div className="max-h-[68vh] min-h-[360px] divide-y divide-border-subtle/70 overflow-y-auto overscroll-contain">
                 {(events?.events || []).map((event, index) => (
                   <article key={`${event.ts}-${event.ip}-${event.event}-${index}`} className="p-4 transition-colors hover:bg-accent-blue/5">
                     <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
