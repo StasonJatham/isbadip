@@ -12,11 +12,13 @@ const SOURCE_OPTIONS = [
 ];
 
 const QUICK_FILTERS = [
-  { id: 'all', label: 'All logs', source: 'all', q: '' },
-  { id: 'commands', label: 'Commands', source: 'network', q: 'command.input' },
-  { id: 'files', label: 'Files', source: 'network', q: 'file' },
-  { id: 'credentials', label: 'Credentials', source: 'network', q: 'login' },
-  { id: 'web', label: 'Web probes', source: 'edge', q: '' },
+  { id: 'all', label: 'All logs', source: 'all', q: '', event: '' },
+  { id: 'commands', label: 'Commands', source: 'network', q: 'command.input', event: '' },
+  { id: 'files', label: 'Files', source: 'network', q: '', event: 'file' },
+  { id: 'uploads', label: 'Uploads', source: 'network', q: '', event: 'upload' },
+  { id: 'downloads', label: 'Downloads', source: 'network', q: '', event: 'download' },
+  { id: 'credentials', label: 'Credentials', source: 'network', q: 'login', event: '' },
+  { id: 'web', label: 'Web probes', source: 'edge', q: '', event: '' },
 ];
 
 function number(value: number | undefined) {
@@ -131,7 +133,7 @@ const HoneypotPage: React.FC = () => {
   const limit = 25;
   const combinedQuery = [quickFilter.q, query].filter(Boolean).join(' ');
   const activeSource = quickFilter.source === 'all' ? source : quickFilter.source;
-  const { summary, events, loading, error, reload } = useHoneypotEvents({ q: combinedQuery, source: activeSource, page, limit });
+  const { summary, events, loading, error, reload } = useHoneypotEvents({ q: combinedQuery, source: activeSource, event: quickFilter.event, page, limit });
 
   const submitSearch = useCallback((event: React.FormEvent) => {
     event.preventDefault();
