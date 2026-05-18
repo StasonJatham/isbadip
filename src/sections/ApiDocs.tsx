@@ -52,6 +52,8 @@ console.log(result.malicious); // true or false`;
   "resolvedIPs": ["93.184.216.34"]
 }`;
 
+  const honeypotCode = `curl "https://api.isbadip.com/api/v1/honeypot/events?q=login&source=network&page=1&limit=25"`;
+
   const scrollRevealClass = (visible: boolean) =>
     visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[30px]';
 
@@ -115,6 +117,10 @@ console.log(result.malicious); // true or false`;
         >
           <CodeBlock code={responseCode} label="Response JSON" />
         </div>
+
+        <div className={`transition-all duration-500 ease-out ${scrollRevealClass(responseVisible)}`}>
+          <CodeBlock code={honeypotCode} label="Honeypot Events API" />
+        </div>
       </div>
 
       {/* Endpoint Reference */}
@@ -156,6 +162,14 @@ console.log(result.malicious); // true or false`;
                   <td className="py-3 pr-4 text-text-secondary font-medium">Response</td>
                   <td className="py-3 pr-4 font-mono text-success-green">200 OK</td>
                 </tr>
+                <tr className="border-t border-border-subtle/50">
+                  <td className="py-3 pr-4 text-text-secondary font-medium">Events</td>
+                  <td className="py-3 pr-4 font-mono text-accent-blue">GET /api/v1/honeypot/events</td>
+                </tr>
+                <tr>
+                  <td className="py-3 pr-4 text-text-secondary font-medium">Summary</td>
+                  <td className="py-3 pr-4 font-mono text-accent-blue">GET /api/v1/honeypot/summary</td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -178,6 +192,10 @@ console.log(result.malicious); // true or false`;
             <div>
               <dt className="text-xs text-text-muted font-medium uppercase tracking-wide mb-1">Response</dt>
               <dd className="font-mono text-success-green text-sm">200 OK</dd>
+            </div>
+            <div>
+              <dt className="text-xs text-text-muted font-medium uppercase tracking-wide mb-1">Events</dt>
+              <dd className="font-mono text-accent-blue text-sm">GET /api/v1/honeypot/events</dd>
             </div>
           </dl>
         </div>

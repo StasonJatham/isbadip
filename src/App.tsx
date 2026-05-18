@@ -3,6 +3,7 @@ import SearchCard from '@/components/SearchCard';
 import ThemeToggle from '@/components/ThemeToggle';
 import ApiDocs from '@/sections/ApiDocs';
 import Footer from '@/sections/Footer';
+import HoneypotPage from '@/sections/HoneypotPage';
 
 const CONSOLE_ART = String.raw`⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⣤⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⠀⠀⠀⢀⣴⠟⠉⠀⠀⠀⠈⠻⣦⡀⠀⠀⠀⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -31,6 +32,7 @@ const CONSOLE_ART = String.raw`⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀�
 ⠀⠀⠀⠀⠀⠀⠻⠄⠀⠀⠀⢀⣿⠀⢠⡄⠀⠀⠀⣁⠁⡀⠀⢠⠀⠀⠀⠀⠀⠀⠀⠀⢀⣐⡟⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⢠⡇`;
 
 const App: React.FC = () => {
+  const isHoneypotPage = window.location.pathname.replace(/\/+$/, '') === '/honeypot';
   const [currentHost, setCurrentHost] = useState<string>(
     () => new URLSearchParams(window.location.search).get('host') ?? ''
   );
@@ -42,6 +44,10 @@ const App: React.FC = () => {
   useEffect(() => {
     document.title = currentHost ? `${currentHost} – isbadip.com` : 'isbadip.com';
   }, [currentHost]);
+
+  if (isHoneypotPage) {
+    return <HoneypotPage />;
+  }
 
   const handleHostChange = useCallback((host: string) => {
     setCurrentHost(host);
@@ -93,6 +99,26 @@ const App: React.FC = () => {
             />
           </svg>
         </div>
+      </section>
+
+      <section
+        className="w-full max-w-[720px] mx-auto px-5 sm:px-6 pb-4 sm:pb-6"
+        aria-labelledby="honeypot-link-heading"
+      >
+        <a href="/honeypot" className="glass-card block px-5 py-5 sm:px-6 sm:py-6 transition-transform hover:-translate-y-0.5">
+          <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-text-muted mb-2">
+            Live telemetry
+          </p>
+          <h2
+            id="honeypot-link-heading"
+            className="text-base sm:text-lg font-medium text-text-primary tracking-tight mb-2"
+          >
+            Browse public-safe honeypot events
+          </h2>
+          <p className="text-sm sm:text-[15px] leading-6 text-text-secondary">
+            Search normalized attack activity collected from SSH/Telnet and edge web honeypots.
+          </p>
+        </a>
       </section>
 
       <section

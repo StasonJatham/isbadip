@@ -17,6 +17,7 @@ No tracking. No account. No API key.
 
 - Website: [https://isbadip.com](https://isbadip.com)
 - Public API: [https://api.isbadip.com/api/v1/host/8.8.8.8](https://api.isbadip.com/api/v1/host/8.8.8.8)
+- Honeypot events: [https://isbadip.com/honeypot](https://isbadip.com/honeypot)
 
 ## What It Checks
 
@@ -34,6 +35,8 @@ That custom-list layer is what makes the service useful: hosts that actively pro
 
 ```text
 GET https://api.isbadip.com/api/v1/host/{ip-or-domain}
+GET https://api.isbadip.com/api/v1/honeypot/summary
+GET https://api.isbadip.com/api/v1/honeypot/events?q=login&source=network&page=1&limit=25
 ```
 
 Example:

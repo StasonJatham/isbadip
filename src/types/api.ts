@@ -54,3 +54,65 @@ export interface HostApiResponse {
   cacheExpires?: string;
   error?: string;
 }
+
+export interface HoneypotSummaryResponse {
+  ok: boolean;
+  generated_at: string | null;
+  totals: {
+    network_events: number;
+    network_ips: number;
+    sessions: number;
+    edge_events: number;
+    edge_ips: number;
+    edge_hosts: number;
+    edge_paths: number;
+  };
+  top: {
+    network_ips: Array<{ ip: string; count: number }>;
+    network_events: Array<{ key: string; count: number }>;
+    commands: Array<{ key: string; count: number }>;
+    credentials: Array<{ key: string; count: number }>;
+    edge_ips: Array<{ key: string; count: number }>;
+    edge_events: Array<{ key: string; count: number }>;
+    edge_hosts: Array<{ key: string; count: number }>;
+    edge_paths: Array<{ key: string; count: number }>;
+    edge_categories: Array<{ key: string; count: number }>;
+  };
+}
+
+export interface HoneypotEvent {
+  source: 'network' | 'edge' | 'web-trap';
+  ts: string | null;
+  ip: string | null;
+  event: string | null;
+  protocol?: string | null;
+  username?: string | null;
+  password?: string | null;
+  command?: string | null;
+  url?: string | null;
+  hash?: string | null;
+  session?: string | null;
+  host?: string | null;
+  path?: string | null;
+  method?: string | null;
+  action?: string | null;
+  category?: string | null;
+  country?: string | null;
+  user_agent?: string | null;
+}
+
+export interface HoneypotEventsResponse {
+  ok: boolean;
+  generated_at: string | null;
+  page: number;
+  limit: number;
+  total: number;
+  pages: number;
+  filters: {
+    q: string;
+    source: string;
+    event: string;
+    ip: string;
+  };
+  events: HoneypotEvent[];
+}
