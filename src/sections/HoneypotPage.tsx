@@ -38,7 +38,11 @@ function sourceLabel(source: HoneypotEvent['source']) {
 
 function eventDetail(event: HoneypotEvent) {
   if (event.source === 'network') {
-    return event.command || event.url || [event.username, event.password].filter(Boolean).join(':') || event.protocol || '';
+    if (event.command) return event.command;
+    if (event.url) return event.url;
+    if (event.hash) return `sha256:${event.hash}`;
+    const credentials = [event.username, event.password].filter(Boolean).join(':');
+    return credentials || event.protocol || '';
   }
   return `${event.method || 'GET'} ${event.host || ''}${event.path || ''}`.trim();
 }
