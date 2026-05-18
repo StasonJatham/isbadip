@@ -167,7 +167,7 @@ const HoneypotPage: React.FC = () => {
 
   return (
     <div className="min-h-screen gradient-bg animate-gradient-shift" role="main">
-      <div className="fixed top-4 right-4 z-50 flex items-center gap-2 animate-fade-up" style={{ animationDelay: '250ms', opacity: 0 }}>
+      <div className="fixed top-3 right-3 z-50 flex items-center gap-2 animate-fade-up sm:top-4 sm:right-4" style={{ animationDelay: '250ms', opacity: 0 }}>
         <a
           href="/"
           className="rounded-full border border-border-subtle bg-white/55 px-3 py-2 text-xs font-medium text-text-secondary backdrop-blur transition-colors hover:text-text-primary dark:bg-black/20"
@@ -177,22 +177,22 @@ const HoneypotPage: React.FC = () => {
         <ThemeToggle />
       </div>
 
-      <section className="w-full max-w-[1120px] mx-auto px-5 sm:px-6 pt-20 sm:pt-24 pb-12">
-        <div className="mb-8 sm:mb-10 animate-fade-up" style={{ animationDelay: '100ms', opacity: 0 }}>
+      <section className="w-full max-w-[1120px] mx-auto px-3.5 pt-[72px] pb-10 sm:px-6 sm:pt-24 sm:pb-12">
+        <div className="mb-6 sm:mb-10 animate-fade-up" style={{ animationDelay: '100ms', opacity: 0 }}>
           <a href="/" className="text-sm text-text-muted hover:text-text-secondary transition-colors">
             ← Reputation lookup
           </a>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] items-stretch">
-          <div className="glass-card p-7 sm:p-9 animate-fade-up" style={{ animationDelay: '150ms', opacity: 0 }}>
+        <div className="grid gap-4 sm:gap-6 lg:grid-cols-[1.1fr_0.9fr] items-stretch">
+          <div className="glass-card p-5 sm:p-9 animate-fade-up" style={{ animationDelay: '150ms', opacity: 0 }}>
             <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-text-muted mb-3">
               isbadip honeypots
             </p>
-            <h1 className="text-3xl sm:text-5xl font-medium tracking-tight text-text-primary mb-4">
+            <h1 className="text-3xl font-medium tracking-tight text-text-primary mb-4 sm:text-5xl">
               Real honeypot data, updated daily
             </h1>
-            <p className="text-base sm:text-lg leading-7 text-text-secondary max-w-2xl">
+            <p className="text-base leading-7 text-text-secondary max-w-2xl sm:text-lg">
               Search real activity observed by isbadip honeypots. The dataset is refreshed daily and
               provides practical indicators for spotting noisy scanners, probes, and automated abuse.
             </p>
@@ -211,7 +211,7 @@ const HoneypotPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 animate-fade-up" style={{ animationDelay: '220ms', opacity: 0 }}>
+          <div className="grid grid-cols-2 gap-2.5 animate-fade-up sm:gap-3" style={{ animationDelay: '220ms', opacity: 0 }}>
             <Metric label="Network events" value={number(summary?.totals.network_events)} />
             <Metric label="Network IPs" value={number(summary?.totals.network_ips)} />
             <Metric label="Edge/Web events" value={number(summary?.totals.edge_events)} />
@@ -225,12 +225,12 @@ const HoneypotPage: React.FC = () => {
               value={searchDraft}
               onChange={(event) => setSearchDraft(event.target.value)}
               placeholder="Search IPs, commands, credentials, hosts, paths..."
-              className="min-h-11 rounded-xl border border-border-subtle bg-transparent px-4 text-text-primary placeholder:text-text-muted outline-none focus:border-accent-blue"
+              className="min-h-11 min-w-0 rounded-xl border border-border-subtle bg-transparent px-4 text-text-primary placeholder:text-text-muted outline-none focus:border-accent-blue"
             />
             <select
               value={source}
               onChange={(event) => setSourceFilter(event.target.value)}
-              className="min-h-11 rounded-xl border border-border-subtle bg-transparent px-4 text-text-primary outline-none focus:border-accent-blue"
+              className="min-h-11 w-full rounded-xl border border-border-subtle bg-transparent px-4 text-text-primary outline-none focus:border-accent-blue"
             >
               {SOURCE_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>{option.label}</option>
@@ -238,12 +238,12 @@ const HoneypotPage: React.FC = () => {
             </select>
             <button
               type="submit"
-              className="min-h-11 rounded-xl bg-accent-blue px-5 font-medium text-white transition-colors hover:bg-accent-blue-hover"
+              className="min-h-11 w-full rounded-xl bg-accent-blue px-5 font-medium text-white transition-colors hover:bg-accent-blue-hover"
             >
               Search
             </button>
           </form>
-          <div className="mt-4 flex flex-wrap gap-2">
+          <div className="-mx-1 mt-4 flex snap-x gap-2 overflow-x-auto px-1 pb-1 sm:flex-wrap sm:overflow-visible sm:pb-0">
             {QUICK_FILTERS.map((filter) => {
               const active = quickFilter.id === filter.id;
               return (
@@ -251,7 +251,7 @@ const HoneypotPage: React.FC = () => {
                   key={filter.id}
                   type="button"
                   onClick={() => applyQuickFilter(filter)}
-                  className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
+                  className={`shrink-0 snap-start rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
                     active
                       ? 'border-accent-blue bg-accent-blue text-white'
                       : 'border-border-subtle text-text-secondary hover:text-text-primary'
@@ -264,8 +264,8 @@ const HoneypotPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="mt-6 grid gap-6 lg:grid-cols-[280px_1fr]">
-          <aside className="space-y-4">
+        <div className="mt-6 grid gap-4 sm:gap-6 lg:grid-cols-[280px_1fr]">
+          <aside className="-mx-3.5 flex snap-x gap-3 overflow-x-auto px-3.5 pb-2 sm:mx-0 sm:px-0 lg:block lg:space-y-4 lg:overflow-visible lg:pb-0">
             <TopList
               title="Top event types"
               rows={[...(summary?.top.network_events || []), ...(summary?.top.edge_events || [])].slice(0, 10)}
@@ -285,34 +285,36 @@ const HoneypotPage: React.FC = () => {
 
           <section className="glass-card overflow-hidden">
             <div className="flex flex-col gap-3 border-b border-border-subtle p-4 sm:flex-row sm:items-center sm:justify-between">
-              <div>
+              <div className="min-w-0">
                 <h2 className="text-lg font-medium text-text-primary">Events</h2>
                 <p className="text-sm text-text-muted">
                   {loading ? 'Loading…' : `${number(events?.total)} matching rows`}
                   {summary?.generated_at ? ` · generated ${formatTime(summary.generated_at)}` : ''}
                 </p>
               </div>
-              <button
-                type="button"
-                onClick={reload}
-                className="rounded-lg border border-border-subtle px-3 py-2 text-sm text-text-secondary transition-colors hover:text-text-primary"
-              >
-                Refresh
-              </button>
-              <a
-                href="https://api.isbadip.com/api/v1/honeypot/iocs"
-                className="rounded-lg border border-border-subtle px-3 py-2 text-sm text-text-secondary transition-colors hover:text-text-primary"
-              >
-                Export JSON
-              </a>
+              <div className="grid grid-cols-2 gap-2 sm:flex sm:shrink-0">
+                <button
+                  type="button"
+                  onClick={reload}
+                  className="rounded-lg border border-border-subtle px-3 py-2 text-sm text-text-secondary transition-colors hover:text-text-primary"
+                >
+                  Refresh
+                </button>
+                <a
+                  href="https://api.isbadip.com/api/v1/honeypot/iocs"
+                  className="rounded-lg border border-border-subtle px-3 py-2 text-center text-sm text-text-secondary transition-colors hover:text-text-primary"
+                >
+                  Export JSON
+                </a>
+              </div>
             </div>
 
             {error ? (
               <div className="p-6 text-danger-coral">Failed to load honeypot events: {error}</div>
             ) : (
-              <div className="max-h-[68vh] min-h-[360px] divide-y divide-border-subtle/70 overflow-y-auto overscroll-contain">
+              <div className="divide-y divide-border-subtle/70 sm:max-h-[68vh] sm:min-h-[360px] sm:overflow-y-auto sm:overscroll-contain">
                 {(events?.events || []).map((event, index) => (
-                  <article key={`${event.ts}-${event.ip}-${event.event}-${index}`} className="p-4 transition-colors hover:bg-accent-blue/5">
+                  <article key={`${event.ts}-${event.ip}-${event.event}-${index}`} className="p-3.5 transition-colors hover:bg-accent-blue/5 sm:p-4">
                     <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                       <div className="min-w-0">
                         <div className="flex flex-wrap items-center gap-2">
@@ -348,7 +350,7 @@ const HoneypotPage: React.FC = () => {
               </div>
             )}
 
-            <div className="flex items-center justify-between border-t border-border-subtle p-4">
+            <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 border-t border-border-subtle p-3 sm:p-4">
               <button
                 type="button"
                 disabled={page <= 1 || loading}
@@ -357,7 +359,7 @@ const HoneypotPage: React.FC = () => {
               >
                 Previous
               </button>
-              <span className="text-sm text-text-muted">
+              <span className="text-center text-sm text-text-muted">
                 Page {events?.page || page} of {events?.pages || 1}
               </span>
               <button
@@ -380,7 +382,7 @@ const HoneypotPage: React.FC = () => {
 
 function Metric({ label, value }: { label: string; value: string }) {
   return (
-    <div className="glass-card p-5">
+    <div className="glass-card p-4 sm:p-5">
       <div className="font-mono text-2xl text-text-primary">{value}</div>
       <div className="mt-1 text-xs uppercase tracking-[0.16em] text-text-muted">{label}</div>
     </div>
@@ -397,7 +399,7 @@ function TopList({
   onSelect?: (value: string) => void;
 }) {
   return (
-    <div className="glass-card p-4">
+    <div className="glass-card min-w-[270px] snap-start p-4 sm:min-w-[300px] lg:min-w-0">
       <h3 className="mb-3 text-sm font-medium uppercase tracking-wide text-text-muted">{title}</h3>
       <div className="space-y-2">
         {rows.slice(0, 8).map((row) => {
