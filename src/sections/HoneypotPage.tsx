@@ -70,19 +70,19 @@ const HoneypotPage: React.FC = () => {
         <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] items-stretch">
           <div className="glass-card p-7 sm:p-9 animate-fade-up" style={{ animationDelay: '150ms', opacity: 0 }}>
             <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-text-muted mb-3">
-              Live attack telemetry
+              isbadip honeypots
             </p>
             <h1 className="text-3xl sm:text-5xl font-medium tracking-tight text-text-primary mb-4">
-              Honeypot events, searchable without exposing collectors
+              Real honeypot data, updated daily
             </h1>
             <p className="text-base sm:text-lg leading-7 text-text-secondary max-w-2xl">
-              A public-safe view of observed SSH, Telnet, edge, and web-trap activity feeding isbadip.
-              The dataset updates daily and only exposes normalized attacker-side event fields.
+              Search real activity observed by isbadip honeypots. The dataset is refreshed daily and
+              provides practical indicators for spotting noisy scanners, probes, and automated abuse.
             </p>
             <div className="mt-6 flex flex-wrap gap-2 text-xs text-text-muted">
-              <span className="rounded-full border border-border-subtle px-3 py-1">No collector IPs</span>
-              <span className="rounded-full border border-border-subtle px-3 py-1">Paginated API</span>
-              <span className="rounded-full border border-border-subtle px-3 py-1">Daily refresh</span>
+              <span className="rounded-full border border-border-subtle px-3 py-1">Real data</span>
+              <span className="rounded-full border border-border-subtle px-3 py-1">Searchable API</span>
+              <span className="rounded-full border border-border-subtle px-3 py-1">Updated daily</span>
             </div>
             <div className="mt-7">
               <a
@@ -178,7 +178,7 @@ const HoneypotPage: React.FC = () => {
                           {event.event}
                         </div>
                         {eventDetail(event) ? (
-                          <div className="mt-2 rounded-lg bg-code-bg/95 p-3 font-mono text-xs leading-5 text-code-text break-words">
+                          <div className="mt-2 rounded-lg border border-border-subtle bg-white/80 p-3 font-mono text-xs leading-5 text-slate-900 break-words dark:bg-code-bg/95 dark:text-code-text">
                             {eventDetail(event)}
                           </div>
                         ) : null}
