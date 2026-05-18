@@ -53,6 +53,7 @@ console.log(result.malicious); // true or false`;
 }`;
 
   const honeypotCode = `curl "https://api.isbadip.com/api/v1/honeypot/events?q=login&source=network&page=1&limit=25"`;
+  const iocCode = `curl "https://api.isbadip.com/api/v1/honeypot/iocs?limit=250"`;
 
   const scrollRevealClass = (visible: boolean) =>
     visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[30px]';
@@ -121,6 +122,10 @@ console.log(result.malicious); // true or false`;
         <div className={`transition-all duration-500 ease-out ${scrollRevealClass(responseVisible)}`}>
           <CodeBlock code={honeypotCode} label="Honeypot Events API" />
         </div>
+
+        <div className={`transition-all duration-500 ease-out ${scrollRevealClass(responseVisible)}`}>
+          <CodeBlock code={iocCode} label="Clean IOC Export" />
+        </div>
       </div>
 
       {/* Endpoint Reference */}
@@ -170,6 +175,10 @@ console.log(result.malicious); // true or false`;
                   <td className="py-3 pr-4 text-text-secondary font-medium">Summary</td>
                   <td className="py-3 pr-4 font-mono text-accent-blue">GET /api/v1/honeypot/summary</td>
                 </tr>
+                <tr>
+                  <td className="py-3 pr-4 text-text-secondary font-medium">IOCs</td>
+                  <td className="py-3 pr-4 font-mono text-accent-blue">GET /api/v1/honeypot/iocs</td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -196,6 +205,10 @@ console.log(result.malicious); // true or false`;
             <div>
               <dt className="text-xs text-text-muted font-medium uppercase tracking-wide mb-1">Events</dt>
               <dd className="font-mono text-accent-blue text-sm">GET /api/v1/honeypot/events</dd>
+            </div>
+            <div>
+              <dt className="text-xs text-text-muted font-medium uppercase tracking-wide mb-1">IOCs</dt>
+              <dd className="font-mono text-accent-blue text-sm">GET /api/v1/honeypot/iocs</dd>
             </div>
           </dl>
         </div>

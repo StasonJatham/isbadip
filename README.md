@@ -37,6 +37,7 @@ That custom-list layer is what makes the service useful: hosts that actively pro
 GET https://api.isbadip.com/api/v1/host/{ip-or-domain}
 GET https://api.isbadip.com/api/v1/honeypot/summary
 GET https://api.isbadip.com/api/v1/honeypot/events?q=login&source=network&page=1&limit=25
+GET https://api.isbadip.com/api/v1/honeypot/iocs?limit=250
 ```
 
 Example:

@@ -84,6 +84,14 @@ const HoneypotPage: React.FC = () => {
               <span className="rounded-full border border-border-subtle px-3 py-1">Paginated API</span>
               <span className="rounded-full border border-border-subtle px-3 py-1">Daily refresh</span>
             </div>
+            <div className="mt-7">
+              <a
+                href="https://api.isbadip.com/api/v1/honeypot/iocs"
+                className="inline-flex min-h-11 items-center rounded-xl bg-accent-blue px-5 text-sm font-medium text-white transition-colors hover:bg-accent-blue-hover"
+              >
+                Export clean IOC JSON
+              </a>
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-3 animate-fade-up" style={{ animationDelay: '220ms', opacity: 0 }}>
@@ -143,6 +151,12 @@ const HoneypotPage: React.FC = () => {
               >
                 Refresh
               </button>
+              <a
+                href="https://api.isbadip.com/api/v1/honeypot/iocs"
+                className="rounded-lg border border-border-subtle px-3 py-2 text-sm text-text-secondary transition-colors hover:text-text-primary"
+              >
+                Export JSON
+              </a>
             </div>
 
             {error ? (
